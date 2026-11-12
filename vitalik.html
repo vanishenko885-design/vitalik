@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Виталик</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<script>try{var h=document.documentElement;h.dataset.theme=localStorage.getItem('vt_theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');if(localStorage.getItem('vt_ny')!=='0')h.classList.add('ny')}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.classList.add('ny')}</script>
+<style>
+:root{--bg:#17212b;--panel:#0e1621;--line:#101921;--txt:#f5f5f5;--sub:#7f91a4;--acc:#2b95e0;--out:#2b5278;--in:#182533;--hover:#202b36;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#fff;--panel:#e7ebf0;--line:#dfe3e7;--txt:#111;--sub:#707579;--acc:#3390ec;--out:#d9f2d0;--in:#fff;--hover:#f1f3f4}
+#app{height:100%;display:none}
+body.in #app{display:block}
+.auth{max-width:none!important;width:100%}
+.auth .card{width:100%;max-width:420px;align-self:center}
+.ph0{display:none}
+.top{position:relative}
+.logo{position:relative}
+.ny .top::after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:14px;pointer-events:none;z-index:2;background:radial-gradient(circle at 6px 7px,#ff4d4d 4px,#0000 5px) 0 0/40px 14px,radial-gradient(circle at 16px 7px,#3ddc6a 4px,#0000 5px) 0 0/40px 14px,radial-gradient(circle at 26px 7px,#ffd24d 4px,#0000 5px) 0 0/40px 14px,radial-gradient(circle at 36px 7px,#4db8ff 4px,#0000 5px) 0 0/40px 14px;animation:tw 1.8s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.5}to{opacity:1}}
+.ny .logo::after{content:"🎄";position:absolute;right:-10px;bottom:-6px;font-size:28px}
+.ny .search{padding-top:18px}
+.ny .msgs{background:var(--panel) radial-gradient(circle at 20% 10%,#ffffff14 2px,#0000 3px) 0 0/60px 60px}
+.my{width:38px;height:38px;border-radius:50%;border:0;padding:0;overflow:hidden;cursor:pointer;color:#fff;font-weight:700;flex:none}
+.av img,.my img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.cd{font-size:12px;color:var(--sub);font-weight:400}
+.ov{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:20;padding:16px}
+.ov.on{display:grid}
+.pc{background:var(--bg);border-radius:18px;padding:20px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:10px;max-height:100%;overflow:auto}
+.pc input{background:var(--panel)}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;background:var(--panel);border:2px solid transparent;border-radius:10px;padding:9px;cursor:pointer}
+.seg button.on{border-color:var(--acc)}
+.seg .btn{background:var(--acc);color:#fff}
+.chk{display:flex;gap:8px;align-items:center;font-weight:400;font-size:14px}
+.chk input{width:auto}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:30}
+@media(min-width:900px){
+body{display:flex;justify-content:center}
+body.in #app{display:flex;width:100%;max-width:1200px;height:100%}
+#home{display:flex!important;width:380px;flex:none;max-width:none;margin:0;border-right:1px solid var(--line)}
+#chat{display:flex!important;flex:1;max-width:none;margin:0}
+#bk{display:none}
+#chat.idle .top,#chat.idle .msgs,#chat.idle .bar{display:none}
+#chat.idle .ph0{display:grid}
+.ph0{margin:auto;color:var(--sub);background:var(--in);padding:6px 14px;border-radius:14px}
+}
+@media(prefers-reduced-motion:reduce){.ny .top::after{animation:none}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--panel);color:var(--txt);font:15px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+button,input{font:inherit;color:inherit}
+.screen{display:none;height:100%;flex-direction:column;max-width:560px;margin:0 auto;background:var(--bg)}
+.screen.on{display:flex}
+.auth{justify-content:center;padding:24px;gap:12px;background:linear-gradient(160deg,#1d4466,#0e1621)}
+.auth .card{background:rgba(23,33,43,.92);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:10px;color:#f5f5f5}
+.logo{width:72px;height:72px;border-radius:50%;background:var(--acc);display:grid;place-items:center;font-size:32px;font-weight:700;margin:0 auto;color:#fff}
+h1{text-align:center;font-size:26px}
+.hint{color:#7f91a4;font-size:12px;text-align:center}
+label{font-size:12px;font-weight:600}
+input{background:#232e3c;border:1px solid transparent;border-radius:10px;padding:12px;width:100%;color:#f5f5f5}
+input:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.btn{background:#2b95e0;color:#fff;border:0;border-radius:10px;padding:13px;font-weight:600;cursor:pointer}
+.err{color:#ff7b7b;font-size:12px;min-height:16px;text-align:center}
+.top{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .t{flex:1;font-weight:600;font-size:17px}
+.ib{background:none;border:0;padding:6px 10px;font-size:20px;cursor:pointer;color:var(--sub);border-radius:8px}
+.search{padding:8px 12px;background:var(--bg)}
+.search input{background:var(--panel);border-radius:20px;padding:9px 14px}
+.list{flex:1;overflow:auto}
+.row{display:flex;gap:12px;padding:10px 12px;cursor:pointer;align-items:center;width:100%;background:none;border:0;text-align:left}
+.row:hover{background:var(--hover)}
+.av{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:18px}
+.rm{flex:1;min-width:0}
+.rn{display:flex;justify-content:space-between;gap:8px}
+.rn b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rn span,.rl{color:var(--sub);font-size:13px}
+.rl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{background:var(--acc);color:#fff;border-radius:10px;font-size:12px;padding:1px 7px;margin-left:6px}
+.msgs{flex:1;overflow:auto;padding:10px 10px 4px;display:flex;flex-direction:column;gap:4px;background:var(--panel)}
+.m{max-width:80%;padding:7px 10px 5px;border-radius:14px;word-wrap:break-word;white-space:pre-wrap}
+.m small{display:block;text-align:right;font-size:11px;color:var(--sub);margin-top:1px}
+.m.me{align-self:flex-end;background:var(--out);border-bottom-right-radius:4px}
+.m.he{align-self:flex-start;background:var(--in);border-bottom-left-radius:4px}
+.bar{display:flex;gap:8px;padding:8px;background:var(--bg);align-items:center}
+.bar input{background:var(--panel);border-radius:20px;padding:10px 14px}
+.send{background:var(--acc);color:#fff;border:0;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;flex:none}
+.empty{margin:auto;color:var(--sub);background:var(--in);padding:6px 14px;border-radius:14px}
+.fab{position:absolute;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+.wrap{position:relative;flex:1;display:flex;flex-direction:column;min-height:0}
+</style>
+</head>
+<body>
+<section class="screen auth on" id="auth">
+  <div class="card">
+    <div class="logo">В</div>
+    <h1>Виталик</h1>
+    <p class="hint" id="ah">Регистрация и вход по номеру телефона</p>
+    <div id="s1">
+      <label for="ph">Номер телефона</label><input id="ph" inputmode="tel" placeholder="+7 900 123-45-67">
+      <label for="nm" style="display:block;margin-top:10px">Твоё имя</label><input id="nm" placeholder="Например, Андрей">
+      <label for="un" style="display:block;margin-top:10px">Юзернейм (уникальный)</label><input id="un" placeholder="например_andrey">
+      <p class="hint" style="margin-top:6px">Минимум 5 символов: латиница, цифры и _</p>
+    </div>
+    <div id="s2" style="display:none">
+      <label for="cd">Код из SMS</label><input id="cd" inputmode="numeric" maxlength="5" placeholder="12345">
+      <p class="hint" style="margin-top:6px">Демо-режим: код <b>12345</b>. Настоящие SMS подключаются через SMS-провайдера на сервере.</p>
+    </div>
+    <p class="err" id="er"></p>
+    <button class="btn" id="go">Получить код</button>
+  </div>
+</section>
+
+<div id="app"><section class="screen" id="home">
+  <div class="top"><button class="my" id="my" title="Профиль" aria-label="Профиль"></button><div class="t">Виталик<div class="cd" id="dn"></div></div></div>
+  <div class="search"><input id="q" placeholder="Поиск" aria-label="Поиск"></div>
+  <div class="wrap"><div class="list" id="list"></div><button class="send fab" id="nw" title="Новый чат" style="width:54px;height:54px;font-size:22px">✎</button></div>
+</section>
+
+<section class="screen idle" id="chat"><div class="ph0">Выбери чат, чтобы начать общение</div>
+  <div class="top"><button class="ib" id="bk" aria-label="Назад">←</button><div class="av" id="cav" style="width:38px;height:38px;font-size:15px"></div><div class="t" id="ct"></div></div>
+  <div class="msgs" id="ms"></div>
+  <div class="bar"><input id="mi" placeholder="Сообщение" aria-label="Сообщение" autocomplete="off"><button class="send" id="sb" aria-label="Отправить">➤</button></div>
+</section></div>
+
+<div class="ov" id="ov"><div class="pc"><h1 style="font-size:20px">Профиль</h1>
+<div style="display:flex;align-items:center;gap:12px"><div class="av" id="pav" style="width:64px;height:64px"></div><div><button class="btn" id="pu" type="button">Сменить аватар</button><input id="pf" type="file" accept="image/*" hidden></div></div>
+<label for="pn">Имя</label><input id="pn">
+<label for="pu2">Юзернейм</label><input id="pu2">
+<label>Тема</label><div class="seg"><button id="td" type="button">Тёмная</button><button id="tl" type="button">Светлая</button></div>
+<label class="chk"><input type="checkbox" id="ny"> Новогоднее оформление 🎄</label>
+<p class="err" id="pe"></p>
+<div class="seg"><button class="btn" id="ps" type="button">Сохранить</button><button id="px" type="button">Закрыть</button></div>
+<button class="btn" id="lo" type="button" style="background:#c0392b">Выйти</button></div></div>
+<canvas id="snow"></canvas>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var mem={};
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return k in mem?mem[k]:d}}
+function sv(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var colors=['#e17076','#7bc862','#e5ca77','#65aadd','#a695e7','#ee7aae','#6ec9cb','#faa774'];
+var user=ld('vt_user',null), chats=ld('vt_chats',null), cur=null;
+var replies=['Привет! Это демо-ответ 🙂','Понял тебя','Круто, расскажи подробнее','Хорошо, договорились','Ха-ха, отлично!','Давай позже обсудим'];
+function show(id){['auth','home','chat'].forEach(function(s){$(s).classList.toggle('on',s===id)});document.body.classList.toggle('in',id!=='auth')}
+function me(){var a=$('my'),p=$('pav');[a,p].forEach(function(x){x.innerHTML=user.avatar?'<img src="'+user.avatar+'" alt="">':esc(user.name[0]);x.style.background=col(user.name)});var d=Math.ceil((new Date(new Date().getFullYear()+1,0,1)-Date.now())/864e5);$('dn').textContent=document.documentElement.classList.contains('ny')?'До Нового года: '+d+' дн. 🎄':'@'+user.username}
+function tm(t){var d=new Date(t);return d.getHours()+':'+('0'+d.getMinutes()).slice(-2)}
+function col(s){var n=0;for(var i=0;i<s.length;i++)n+=s.charCodeAt(i);return colors[n%colors.length]}
+function seed(){var n=Date.now();chats=[
+ {id:'saved',name:'Избранное',bot:false,unread:0,msgs:[{me:1,t:'Здесь можно хранить заметки себе',ts:n}]},
+ {id:'bot',name:'Виталик Бот',bot:true,unread:1,msgs:[{me:0,t:'Привет, '+user.name+'! С наступающим Новым годом! 🎄 Напиши мне что-нибудь.',ts:n}]},
+ {id:'a',name:'Андрей',bot:true,unread:0,msgs:[{me:0,t:'Ты видел новый апдейт?',ts:n-3600000}]},
+ {id:'m',name:'Мама',bot:true,unread:0,msgs:[{me:0,t:'Не забудь поужинать',ts:n-86400000}]}];sv('vt_chats',chats)}
+function render(){me();
+ var f=$('q').value.toLowerCase(),h='';
+ chats.slice().sort(function(a,b){return last(b).ts-last(a).ts}).forEach(function(c){
+  if(f&&c.name.toLowerCase().indexOf(f)<0)return;
+  var l=last(c);
+  h+='<button class="row" data-id="'+c.id+'"><div class="av" style="background:'+(c.id==='saved'?'#2b95e0':col(c.name))+'">'+(c.id==='saved'?'★':esc(c.name[0]))+'</div><div class="rm"><div class="rn"><b>'+esc(c.name)+'</b><span>'+tm(l.ts)+'</span></div><div class="rl">'+(l.me?'Вы: ':'')+esc(l.t)+(c.unread?'<span class="badge">'+c.unread+'</span>':'')+'</div></div></button>'});
+ $('list').innerHTML=h||'<p class="hint" style="padding:20px">Ничего не найдено</p>'}
+function last(c){return c.msgs[c.msgs.length-1]||{t:'',ts:0}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function open(id){cur=chats.filter(function(c){return c.id===id})[0];cur.unread=0;sv('vt_chats',chats);
+ $('ct').textContent=cur.name;var a=$('cav');a.textContent=id==='saved'?'★':cur.name[0];a.style.background=id==='saved'?'#2b95e0':col(cur.name);
+ $('chat').classList.remove('idle');draw();show('chat')}
+function draw(){var h='';cur.msgs.forEach(function(m){h+='<div class="m '+(m.me?'me':'he')+'">'+esc(m.t)+'<small>'+tm(m.ts)+(m.me?' ✓✓':'')+'</small></div>'});
+ $('ms').innerHTML=h||'<div class="empty">Сообщений пока нет</div>';$('ms').scrollTop=1e9}
+function send(){var v=$('mi').value.trim();if(!v||!cur)return;
+ cur.msgs.push({me:1,t:v,ts:Date.now()});$('mi').value='';sv('vt_chats',chats);draw();
+ if(cur.bot){var c=cur;setTimeout(function(){c.msgs.push({me:0,t:replies[Math.floor(Math.random()*replies.length)],ts:Date.now()});if(cur!==c)c.unread++;sv('vt_chats',chats);if(cur===c)draw();render()},900)}}
+var step=1;
+$('go').onclick=function(){var e=$('er');e.textContent='';
+ if(step===1){var p=$('ph').value.replace(/[^\d+]/g,''),n=$('nm').value.trim(),u=$('un').value.trim();
+  if(p.replace(/\D/g,'').length<10){e.textContent='Введи корректный номер телефона';return}
+  if(!n){e.textContent='Введи имя';return}
+  if(!/^[A-Za-z0-9_]{5,}$/.test(u)){e.textContent='Юзернейм: от 5 символов, латиница, цифры и _';return}
+  step=2;$('s1').style.display='none';$('s2').style.display='block';$('go').textContent='Войти';$('ah').textContent='Мы отправили код на '+p;$('cd').focus()}
+ else{if($('cd').value!=='12345'){e.textContent='Неверный код';return}
+  user={phone:$('ph').value,name:$('nm').value.trim(),username:$('un').value.trim()};sv('vt_user',user);seed();render();show('home')}};
+$('list').onclick=function(e){var r=e.target.closest('.row');if(r)open(r.dataset.id)};
+$('bk').onclick=function(){cur=null;$('chat').classList.add('idle');render();show('home')};
+$('sb').onclick=send;$('mi').onkeydown=function(e){if(e.key==='Enter')send()};
+$('q').oninput=render;
+$('nw').onclick=function(){var n=(prompt('Имя нового контакта')||'').trim();if(!n)return;
+ var id='c'+Date.now();chats.push({id:id,name:n,bot:true,unread:0,msgs:[]});sv('vt_chats',chats);render();open(id)};
+$('lo').onclick=function(){if(confirm('Выйти из аккаунта? Чаты на этом устройстве будут удалены.')){try{localStorage.clear()}catch(e){}mem={};location.reload()}};
+function theme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('vt_theme',t)}catch(e){}$('td').classList.toggle('on',t==='dark');$('tl').classList.toggle('on',t==='light')}
+function ny(on){document.documentElement.classList.toggle('ny',on);try{localStorage.setItem('vt_ny',on?'1':'0')}catch(e){}$('ny').checked=on;if(user)me()}
+$('my').onclick=function(){$('pn').value=user.name;$('pu2').value=user.username;$('pe').textContent='';theme(document.documentElement.dataset.theme);ny(document.documentElement.classList.contains('ny'));$('ov').classList.add('on')};
+$('px').onclick=function(){$('ov').classList.remove('on')};
+$('td').onclick=function(){theme('dark')};$('tl').onclick=function(){theme('light')};
+$('ny').onchange=function(){ny(this.checked)};
+$('pu').onclick=function(){$('pf').click()};
+$('pf').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas'),s=Math.min(im.width,im.height);c.width=c.height=160;c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,160,160);user.avatar=c.toDataURL('image/jpeg',.82);sv('vt_user',user);me()};im.src=r.result};r.readAsDataURL(f)};
+$('ps').onclick=function(){var n=$('pn').value.trim(),u=$('pu2').value.trim();if(!n){$('pe').textContent='Введи имя';return}if(!/^[A-Za-z0-9_]{5,}$/.test(u)){$('pe').textContent='Юзернейм: от 5 символов, латиница, цифры и _';return}user.name=n;user.username=u;sv('vt_user',user);me();render();$('ov').classList.remove('on')};
+(function(){var c=$('snow'),x=c.getContext('2d'),f=[],W,H;if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();addEventListener('resize',rs);for(var i=0;i<70;i++)f.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.5,v:.4+Math.random(),d:Math.random()*6});(function t(){x.clearRect(0,0,W,H);if(document.documentElement.classList.contains('ny')){x.fillStyle=document.documentElement.dataset.theme==='light'?'#9dbfe6':'rgba(255,255,255,.85)';f.forEach(function(p){p.y+=p.v;p.d+=.01;p.x+=Math.sin(p.d)*.5;if(p.y>H){p.y=-5;p.x=Math.random()*W}x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()})}requestAnimationFrame(t)})()})();
+if(user&&chats){render();show('home')}
+})();
+</script>
+</body>
+</html>
